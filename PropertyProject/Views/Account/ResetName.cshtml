@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Reset name";
+}
+
+<h2>@ViewBag.Title.</h2>
+<div align="center"><h4 style="color:red;">@ViewBag.resetPhone</h4></div>
+
+@using (Html.BeginForm("ResetName", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+  
+    <div class="form-group">
+        <span class="col-md-2 control-label">Enter New Name</span>
+        <div class="col-md-10">
+            <input type="text" name="name" required class="col-md-10 form-control" />
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Reset" />
+        </div>
+    </div>
+}
+

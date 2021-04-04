@@ -1,0 +1,7 @@
+lahore id: 1
+dha lahore id: 1002
+plot id:1
+file id:2
+
+=>type_name , city name , society name, phase name, block name are saaaved in property table 
+if cchanged in thier own table will have no effect on names in property table 

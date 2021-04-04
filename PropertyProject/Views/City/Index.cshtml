@@ -1,0 +1,77 @@
+﻿@using ModelLayer;
+@using DbLayer.db;
+@{
+    ViewBag.Title = "City List";
+    ViewBag.isSideBar = "true";
+}
+<!-- Dashboard -->
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Content
+        ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>City List</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>City List</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div align="center"><h4 style="color:red;">@ViewBag.postCity</h4></div>
+                <!--page Data Starts here -->
+                <div class="row ">
+                    <div align="center"><h4 style="color:red;">choose from list to update</h4></div>
+                    <div id="list" align="center" style="margin-top:20px;margin-bottom:20px" >
+                    @{
+                        CityDb cityDb = new CityDb();
+                        List<CityModel> cities = cityDb.getCities();
+                        foreach(CityModel obj in cities)
+                        {
+                                    <a class="btn-my first" href="/City/Edit/@obj.id">@obj.name</a>
+                        }
+                    }
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+<!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+</div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+</html>

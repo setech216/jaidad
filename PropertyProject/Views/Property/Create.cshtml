@@ -1,0 +1,769 @@
+﻿
+@using ModelLayer;
+@{
+    ViewBag.Title = "Create Property";
+    ViewBag.isSideBar = "true";
+}
+<!-- Dashboard -->
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Add Property</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Add Pproperty</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div align="center"><h4 style="color:red;">@ViewBag.postPhase</h4></div>
+
+                <!--page Data Starts here -->
+                <div class="row ">
+
+                    <div class="  col-sm-12">
+                        @using (Html.BeginForm("Create", "Property", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div align="center"><h1 class="h3 mb-3 font-weight-normal "><b class="mainHeading" style="color:black">Enter New Property Details</b></h1></div>
+
+                            <!--purpose -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Purpose</b></span></div>
+                                    <select class="form-control" name="purpose" id="purpose" onChange="" required>
+                                        <option selected value="">select purpose</option>
+                                        <option value="sell">Sell</option>
+                                        <option value="rent">Rent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--property type -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Property Type</b></span></div>
+                                    <select class="form-control" name="type_id" id="propertyType" onChange="showDetails()" required>
+                                        <option slected value="">Select Property Type</option>
+                                        @{List<PropertyTypeModel> typeList = ViewBag.propertyTypes;
+                                            if (typeList != null)
+                                            {
+                                                foreach (PropertyTypeModel type in typeList)
+                                                {
+                                                    <option slected value=@type.id> @type.name </option>
+                                                }
+                                            }
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--title -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Property Title</b></span></div>
+                                    <input type="text" maxlength="250" name="title" id="title" class="form-control" placeholder="Title" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--description -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Description</b></span></div>
+                                    <textarea id="description" maxlength="1000" name="description" rows="4" cols="50"></textarea>
+                                </div>
+                            </div>
+
+                            <!--straight line for location -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <div style="background-color:black;height:1px;"></div>
+                            </div>
+                            <div class="  col-sm-12 ">
+
+                                <div style=""> <p><b style="color:black; font-size:20px"><i class='fas fa-angle-double-right'></i> Location</b></p></div>
+                            </div>
+
+
+                            <!--city -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select City</b></span></div>
+                                    <select class="form-control" name="city_id" id="city" onChange="showSocieties(); cityMap();" required>
+                                        <option slected value=""> Select City </option>
+
+                                        @{List<CityModel> cityList = ViewBag.cities;
+                                            if (cityList != null)
+                                            {
+                                                foreach (CityModel city in cityList)
+                                                {
+                                                    <option slected value=@city.id> @city.name </option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--society -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Society/Area</b></span></div>
+                                    <select class="form-control" name="society_id" id="society" onChange="showPhases(); showBlocks('soc'); societyMap();" required></select>
+                                </div>
+                            </div>
+
+                            <!--phase -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Phase (optional)</b></span></div>
+                                    <select class="form-control" name="phase_id" id="phase" onChange="showBlocks('ph'); phaseMap();">
+                                        <option selected> Select Phase(optional) </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--block -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Block/Sector (optional)</b></span></div>
+                                    <select class="form-control" name="block_id" id="block" onChange="blockyMap()">
+                                        <option selected> Select Block/Society(optional) </option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--map -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <p><b style="color:#f91942">select your location on map </b></p>
+                                <div id="googleMap" style="height: 400px; width: 100%; border-radius: 10px; border: 4px solid #f91942;">            </div>
+                            </div>
+                            <input type="hidden" name="lat" id="lat" value="0"> <input type="hidden" name="lng" id="lng" value="0">
+
+                            <!--straight line for details -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <div class="inputSpace"></div>
+                                <div style="background-color:black;height:1px;"></div>
+                            </div>
+                            <div class="  col-sm-12 ">
+                                <div style=""> <p><b style="color:black; font-size:20px"><i class='fas fa-angle-double-right'></i> Details</b></p></div>
+                            </div>
+
+                            <!--area -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Area</b></span></div>
+                                    <input type="number" name="area" step="any" id="area_unit" class="form-control" placeholder="Area" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                    <select class="form-control" name="area_unit" id="propertyType" required>
+                                        <option slected value="">Unit For Area</option>
+                                        <option slected value="Marla">Marla</option>
+                                        <option slected value="Kanal">Kanal</option>
+                                        <option slected value="SquareFeet">SquareFeet</option>
+                                        <option slected value="SquareYard">SquareYard</option>
+                                        <option slected value="SquareMeter">SquareMeter</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--price -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Price</b></span></div>
+                                    <input type="number" name="price" id="price" class="form-control" placeholder="Price" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--is corner? -->
+                            <div class="  col-sm-6" id="app">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Is Corner Plot?</b></span></div>
+
+                                    <select class="form-control" name="corner" id="corner">
+                                        <option slected value="">Is Corner Plot?</option>
+                                        <option value="0">No  </option>
+                                        <option value="1">Yes</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--images input -->
+                            <div class="col-md-12">
+                                <div class="inputSpace"></div>
+                                <div class="" style="  border: 4px solid #f91942 "> </div>
+                                <div class="btn-img first-img btn-file">
+                                    Click here to add Images <input type="file" name="files" multiple id="gallery-photo-add" maxlength="30" accept="gif|jpg|png|jpeg||jpe">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-12 gallery" id="gallery" style="  border: 4px solid #f91942 "> </div>
+                            </div>
+
+                            <!--straight line for owner details -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <div class="inputSpace"></div>
+                                <div style="background-color:black;height:1px;"></div>
+                            </div>
+                            <div class="  col-sm-12 ">
+                                <div style=""> <p><b style="color:black; font-size:20px"><i class='fas fa-angle-double-right'></i>Owner Details</b></p></div>
+                            </div>
+
+                            <!--owner name -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Name</b></span></div>
+                                    <input type="text" name="owner_name" id="ownerName" class="form-control" placeholder="Owner Name" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--owner contact 1 -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Contact No.1</b></span></div>
+                                    <input type="number" name="owner_contact1" id="ownerCont1" class="form-control" placeholder="Owner Contact No.1" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--owner contact 2 -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Contact No.2</b></span></div>
+                                    <input type="number" name="owner_contact2" id="ownerCont2" class="form-control" placeholder="Owner Contact No.1(optional)" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+                            </div>
+
+                            <!--dealer-->
+                            if ((Request.Cookies["user"] != null))
+                            {
+                                int roleId;
+                                Int32.TryParse(Request.Cookies["user"]["roleId"], out roleId);
+                                if ((roleId == (int)Role.admin) || (roleId == (int)Role.superAdmin))
+                                {
+                                    <div class="  col-sm-8 ">
+                                        <div class="inputSpace"></div>
+                                        <div class="form-group input-group input-group-lg">
+                                            <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Agent</b></span></div>
+                                            <select class="form-control" name="dealer_id" id="dealer" required>
+                                                <option slected value=""> Select Agent </option>
+                                                @{List<UserModel> agentList = ViewBag.agents;
+                                                    if (agentList != null)
+                                                    {
+                                                        foreach (UserModel obj in agentList)
+                                                        {
+                                                            <option slected value=@obj.Id> @obj.Name </option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                            <!--account type, it is to give value of isAvailable on basis of acc Type -->
+                            <input type="hidden" name="accType">
+
+                            <!--add record -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <button class="btn-my first">Add Record</button>
+                            </div>
+
+                        }
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    <!-- Content / End -->
+
+</div>
+<!-- Dashboard / End -->
+</div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+
+
+<script>
+    var cityList;
+    var socList;
+    var phaseList;
+    var blockList;
+
+    var obj = { lat: "0", lng: "0" };
+    $(function () {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                s = this.responseText;
+                cityList = JSON.parse(s);
+            }
+        };
+        xhttp.open("GET", "/City/getCities", true);
+        xhttp.send();
+
+    });
+
+    function cityMap() {
+        // cityList = JSON.parse(document.getElementById("cityList").value);
+
+        var cityId = parseInt(document.getElementById("city").value);
+        var cLat = "0";
+        var cLng = "0";
+        //alert(cityList[0].name);
+        for (var i = 0; i < cityList.length; i++) {
+            var obj = cityList[i];
+            if (cityId == obj.id) {
+
+                cLat = obj.lat;
+                cLng = obj.lng;
+            }
+        }
+        if (cLat != "0" && cLng != "0") {
+
+            myMap(parseFloat(cLat), parseFloat(cLng), 11);
+        }
+    }
+
+    function societyMap() {
+        var socId = parseInt(document.getElementById("society").value);
+        var socLat = "0";
+        var socLng = "0";
+
+        for (var i = 0; i < socList.length; i++) {
+            var obj = socList[i];
+            if (socId == obj.id) {
+
+                socLat = obj.lat;
+                socLng = obj.lng;
+            }
+        }
+        if (socLat != "0" && socLng != "0")
+            myMap(parseFloat(socLat), parseFloat(socLng), 14);
+    }
+
+    function phaseMap() {
+        var phaseId = document.getElementById("phase").value;
+        var pLat = "0";
+        var pLng = "0";
+
+        for (var i = 0; i < phaseList.length; i++) {
+            var obj = phaseList[i];
+            if (phaseId == obj.id) {
+
+                pLat = obj.lat;
+                pLng = obj.lng;
+            }
+        }
+        if (pLat != "0" && pLng != "0")
+            myMap(parseFloat(pLat), parseFloat(pLng), 15);
+
+    }
+
+    function blockyMap() {
+        var blockId = document.getElementById("block").value;
+        var bLat = "0";
+        var bLng = "0";
+
+        for (var i = 0; i < blockList.length; i++) {
+            var obj = blockList[i];
+            if (blockId == obj.id) {
+
+                bLat = obj.lat;
+                bLng = obj.lng;
+            }
+        }
+        if (bLat != "0" && bLng != "0")
+            myMap(parseFloat(bLat), parseFloat(bLng), 17);
+    }
+
+    function myMap(lat, lng, zm) {
+        var mapProp = {
+            center: new google.maps.LatLng(lat, lng),
+            zoom: zm,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        var marker;
+        google.maps.event.addListener(map, 'click', function (event) {
+            if (marker && marker.setMap)
+                marker.setMap(null);
+            var infowindow = new google.maps.InfoWindow({
+                content: "you have selected this location!"
+            });
+            marker = new google.maps.Marker({ position: event.latLng, map: map });
+            infowindow.open(map, marker);
+            obj.lat = event.latLng.lat().toString();
+            obj.lng = event.latLng.lng().toString();
+            moveToHtml();
+            //alert(event.latLng.lat() + ", " + event.latLng.lng());
+        });
+    }
+
+    function map() {
+
+        var mapProp = {
+            center: new google.maps.LatLng(30.3753, 69.3451),
+            zoom: 5,
+        };
+        var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+        var marker;
+        google.maps.event.addListener(map, 'click', function (event) {
+            if (marker && marker.setMap)
+                marker.setMap(null);
+            var infowindow = new google.maps.InfoWindow({
+                content: "you have selected this location!"
+            });
+            marker = new google.maps.Marker({ position: event.latLng, map: map });
+            infowindow.open(map, marker);
+            obj.lat = event.latLng.lat().toString();
+            obj.lng = event.latLng.lng().toString();
+            moveToHtml();
+            //alert(event.latLng.lat() + ", " + event.latLng.lng());
+        });
+    }
+
+    function moveToHtml() {
+        document.getElementById("lat").value = obj.lat.toString();
+        document.getElementById("lng").value = obj.lng.toString();
+
+    }
+
+    function showSocieties() {
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                s = this.responseText;
+                socList = JSON.parse(s);
+                var html = '<option  value=""> Select Society/Area</option>' + '<option value="0"> no area? </option>';
+                for (var i = 0; i < socList.length; i++) {
+                    var obj = socList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("society").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Society/getSocieties?cityId=" + cityId, true);
+        xhttp.send();
+
+    }
+
+
+
+    function showPhases() {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                phaseList = JSON.parse(s);
+                var html = '<option  selected > Select Phase (optional) </option>' + '<option > if area has no phases select this option </option>';
+                for (var i = 0; i < phaseList.length; i++) {
+                    var obj = phaseList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("phase").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Phase/getPhases?cityId=" + cityId + "&socId=" + socId, true);
+        xhttp.send();
+
+    }
+
+    function showBlocks(caller) {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var phaseId = document.getElementById("phase").value;
+        if (caller == 'soc')
+            phaseId = "0";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                blockList = JSON.parse(s);
+                var html = '<option  selected > Select Block/Sector (optional) </option>' + '<option > if area has no blocks select this option </option>';
+                for (var i = 0; i < blockList.length; i++) {
+                    var obj = blockList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("block").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Block/getBlocks?cityId=" + cityId + "&socId=" + socId + "&phaseId=" + phaseId, true);
+        xhttp.send();
+
+    }
+
+    $(function () {
+        // Multiple images preview in browser
+        var imagesPreview = function (input, placeToInsertImagePreview) {
+
+            if (input.files) {
+                var filesAmount = input.files.length;
+                // var prevDiv=document.getElementById("#temp");
+                if (document.querySelectorAll("#temp").length)
+                    $("#temp").remove();
+
+                var div = $('<div></div>').attr('id', 'temp');
+                for (i = 0; i < filesAmount; i++) {
+                    var reader = new FileReader();
+
+                    reader.onload = function (event) {
+                        $($.parseHTML('<img>')).attr('src', event.target.result).appendTo("#temp").attr('height', '100px');
+                    }
+
+                    reader.readAsDataURL(input.files[i]);
+                }
+                $("#gallery").append(div);
+            }
+
+        };
+
+        $('#gallery-photo-add').on('change', function () {
+            imagesPreview(this, 'div.gallery');
+        });
+    });
+
+
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCER7BUrzg5FXz5hivZKd2XzkWAMrTlX2k&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCER7BUrzg5FXz5hivZKd2XzkWAMrTlX2k&callback=map"></script>
+
+
+
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+</html>
+
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
+
+    .btn-img {
+        border-radius: 0px;
+        border: 4px solid black;
+        background-color: #f91942;
+        color: white;
+        text-align: center;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        width: 100%x;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .first-img {
+        border-color: #f91942;
+        color: white;
+    }
+
+        .first-img:hover {
+            background-color: white;
+            color: #f91942;
+            border: 4px solid #f91942;
+        }
+</style>
+
+<script>
+
+function showDetails(){
+    var e = document.getElementById("propertyType");
+                var value = e.options[e.selectedIndex].value;
+
+                    if(value==1)//plot
+                    {
+                        $("#d4").remove();
+                     
+                                       var title="Plot No" ;
+                                       var name="plot_no" ;
+                                       var d="d3"
+                                       
+                                      
+                                       var div1 = $("<div></div>").attr("class", "col-sm-6").attr("id", d);
+                                      
+							 var div1_1= $("<div></div>").attr("class", "inputSpace");
+							 var div1_2= $("<div></div>").attr("class", "form-group input-group input-group-lg");
+							 var div1_3= $("<div></div>").attr("class", "input-group-prepend");
+							 var span1=$("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+                             var b1 = $("<b>" + title + "</b>");
+                             
+							  var inp1=$('<input>').attr({
+								type: 'text',
+								id: name,
+								name: name,
+								class:'form-control',
+                                placeholder: title
+                               
+
+                             });
+                              inp1.attr('required', 'true');
+								inp1.attr("aria-describedby","inputGroup-sizing-sm").attr("aria-label","Large")
+							  div1.append(div1_1);
+							  span1.append(b1);
+							  div1_3.append(span1);
+							   div1_2.append(div1_3);
+							  div1_2.append(inp1);
+							  div1.append(div1_2);
+							   $("#app").after(div1);
+                              
+
+						var div2= $("<div></div>").attr("class", "col-sm-6").attr("id","d5");
+							 var div2_1= $("<div></div>").attr("class", "inputSpace");
+							 var div2_2= $("<div></div>").attr("class", "form-group input-group input-group-lg");
+							 var div2_3= $("<div></div>").attr("class", "input-group-prepend");
+							 var span2=$("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+                             var b2 = $("<b>Plot Type</b>");
+							  var slc2=$('<select >Select Plot Type</select>').attr({
+								id: 'floorType',
+                                name: 'plot_type',
+                                class: 'form-control'
+                               
+                             });
+                              slc2.attr('required', 'true');
+                              var op3 = $('<option value="">Select Plot Type</option>');
+                              var op0 = $('<option value="Residential">Residential</option>');
+                              var op1 = $('<option value="Commertial">Commertial</option>');
+                              slc2.append(op3);
+							 slc2.append(op0);
+							 slc2.append(op1);
+							
+							  div2.append(div2_1);
+							  span2.append(b2);
+							  div2_3.append(span2);
+							   div2_2.append(div2_3);
+							  div2_2.append(slc2);
+							  div2.append(div2_2);
+							   $("#app").after(div2);
+                    }
+                    else
+                    {
+                       
+                      
+                            $("#d3").remove();
+                            $("#d5").remove();
+                            $("#d4").remove();
+                }
+
+                    if (value == 2)//file
+                    {
+                        $("#d5").remove();
+                        $("#d3").remove();
+
+                        var title = "Affidavit Price";
+                        var name = "affidavit_price";
+                        var d = "d4"
+
+
+                        var div1 = $("<div></div>").attr("class", "col-sm-6").attr("id", d);
+
+                        var div1_1 = $("<div></div>").attr("class", "inputSpace");
+                        var div1_2 = $("<div></div>").attr("class", "form-group input-group input-group-lg");
+                        var div1_3 = $("<div></div>").attr("class", "input-group-prepend");
+                        var span1 = $("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+                        var b1 = $("<b>" + title + "</b>");
+
+                        var inp1 = $('<input>').attr({
+                            type: 'number',
+                            id: name,
+                            name: name,
+                            class: 'form-control',
+                            placeholder: title
+
+
+                        });
+                    
+                        inp1.attr("aria-describedby", "inputGroup-sizing-sm").attr("aria-label", "Large")
+                        div1.append(div1_1);
+                        span1.append(b1);
+                        div1_3.append(span1);
+                        div1_2.append(div1_3);
+                        div1_2.append(inp1);
+                        div1.append(div1_2);
+                        $("#app").after(div1);
+
+
+                    }
+                    else {
+
+
+                        $("#d4").remove();
+                     
+
+                    }
+
+
+            }
+
+</script>

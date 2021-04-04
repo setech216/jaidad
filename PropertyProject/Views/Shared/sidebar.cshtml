@@ -1,0 +1,111 @@
+﻿
+@using ModelLayer
+@{
+    ///UserModel user = (UserModel)Session["userObj"];
+    if ((Request.Cookies["user"] != null))
+    {
+        int roleId;
+        Int32.TryParse(Request.Cookies["user"]["roleId"], out roleId);
+        if ((roleId == (int)Role.admin) || (roleId == (int)Role.superAdmin))
+        {
+            <!-- Navigation
+            ================================================== -->
+            <!-- Responsive Navigation Trigger -->
+            <a href="#" class="dashboard-responsive-nav-trigger"><i class="fa fa-reorder"></i> Dashboard Navigation</a>
+
+            <div class="dashboard-nav">
+                <div class="dashboard-nav-inner">
+
+                    <ul data-submenu-title="Locations">
+                        <li><a href="/City/Create"><i class="sl sl-icon-plus"></i> Add City</a></li>
+                        <li><a href="/Society/Create"><i class="sl sl-icon-plus"></i> Addd Society</a></li>
+                        <li><a href="/Phase/Create"><i class="sl sl-icon-plus"></i> Add Phase</a></li>
+                        <li><a href="/Block/Create"><i class="sl sl-icon-plus"></i> Add Block</a></li>
+                        <li><a href="/Dashboard/UpdateLocations"><i class="sl sl-icon-power"></i> Update Locations</a></li>
+                    </ul>
+
+                    <ul data-submenu-title="Properties">
+                        <li><a href="/Property/Create"><i class="sl sl-icon-plus"></i> Add Property</a></li>
+                        <li><a href="/PropertyType/Create"><i class="sl sl-icon-plus"></i> Add Property Type</a></li>
+
+                    </ul>
+
+                    <ul data-submenu-title="Inquiries">
+                        <li><a href="/Inquiry/List"><i class="sl sl-icon-layers"></i> Inquiries</a></li>
+                    </ul>
+
+                    <ul data-submenu-title="Account">
+                        <li><a href="/Account/UserProfile"><i class="sl sl-icon-user"></i> My Profile</a></li>
+                        <li><a href="/Account/Settings"><i class="sl sl-icon-settings"></i> Account Settings</a></li>
+                        @if (roleId == ((int)Role.superAdmin))
+                        {
+                            <li><a href="/Account/Manage"><i class="sl sl-icon-settings"></i>Manage Account</a></li>}
+                        <li><a href="/Account/LogOff"><i class="sl sl-icon-power"></i> Logout</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- Navigation / End -->
+        }
+
+
+        if (roleId == (int)Role.user)
+        {
+            <!-- Navigation
+            ================================================== -->
+            <!-- Responsive Navigation Trigger -->
+            <a href="#" class="dashboard-responsive-nav-trigger"><i class="fa fa-reorder"></i> Dashboard Navigation</a>
+
+            <div class="dashboard-nav">
+                <div class="dashboard-nav-inner">
+
+                    <ul data-submenu-title="Properties">
+                        <li><a href="/Property/Create"><i class="sl sl-icon-plus"></i> Add Property</a></li>
+                        <li><a href="/PropertyType/Create"><i class="sl sl-icon-plus"></i> Add Property Type</a></li>
+
+                    </ul>
+
+                    <ul data-submenu-title="Account">
+                        <li><a href="/Account/UserProfile"><i class="sl sl-icon-user"></i> My Profile</a></li>
+                        <li><a href="/Account/Settings"><i class="sl sl-icon-settings"></i> Account Settings</a></li>
+                        <li><a href="/Account/LogOff"><i class="sl sl-icon-power"></i> Logout</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- Navigation / End -->
+        }
+
+        if (roleId == (int)Role.agent)
+        {
+            <!-- Navigation
+            ================================================== -->
+            <!-- Responsive Navigation Trigger -->
+            <a href="#" class="dashboard-responsive-nav-trigger"><i class="fa fa-reorder"></i> Dashboard Navigation</a>
+
+            <div class="dashboard-nav">
+                <div class="dashboard-nav-inner">
+
+                    <ul data-submenu-title="Properties">
+                        <li><a href="/Property/Create"><i class="sl sl-icon-plus"></i> Add Property</a></li>
+                        <li><a href="/PropertyType/Create"><i class="sl sl-icon-plus"></i> Add Property Type</a></li>
+
+                    </ul>
+
+                    <ul data-submenu-title="Account">
+                        <li><a href="/Account/UserProfile"><i class="sl sl-icon-user"></i> My Profile</a></li>
+                        <li><a href="/Account/Settings"><i class="sl sl-icon-settings"></i> Account Settings</a></li>
+                        <li><a href="/Account/LogOff"><i class="sl sl-icon-power"></i> Logout</a></li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- Navigation / End -->
+
+        }
+    }
+    else
+    {
+        Response.Redirect("/Account/Login");
+    }
+}

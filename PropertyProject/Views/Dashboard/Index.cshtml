@@ -1,0 +1,93 @@
+﻿@using ModelLayer
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.isSideBar = "true";
+}
+
+<!-- Dashboard -->
+<div id="dashboard">
+
+    <!-- Navigation
+    ================================================== -->
+    <!-- Responsive Navigation Trigger -->
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Navigation / End -->
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Dashboard</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li>Dashboard</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Content -->
+        <div class="row">
+            @{
+                ///UserModel user = (UserModel)Session["userObj"];
+                if ((Request.Cookies["user"] != null))
+                {
+                    int roleId;
+                    Int32.TryParse(Request.Cookies["user"]["roleId"], out roleId);
+                    if ((roleId == (int)Role.admin) || (roleId == (int)Role.superAdmin))
+                    {
+                        <!-- Item -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="/Dashboard/Requests">
+                                <div class="dashboard-stat color-3">
+                                    <div class="dashboard-stat-content"><h4>95</h4> <span>Requests For Acceptance</span></div>
+                                    <div class="dashboard-stat-icon"><i class="im im-icon-Add-UserStar"></i></div>
+                                </div>
+                            </a>
+                        </div>
+
+                        <!-- Item -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="/Dashboard/UnavailableProperties">
+                                <div class="dashboard-stat color-1">
+                                    <div class="dashboard-stat-content"><h4>6</h4> <span>Unavailable Properties</span></div>
+                                    <div class="dashboard-stat-icon"><i class="im im-icon-Map2"></i></div>
+                                </div>
+                            </a>
+                        </div>
+                        }
+                    }
+                }
+                        <!-- Item -->
+                        <div class="col-lg-3 col-md-6">
+                            <a href="/Dashboard/MyProperties">
+                                <div class="dashboard-stat color-2">
+                                    <div class="dashboard-stat-content"><h4>726</h4> <span>My Properties</span></div>
+                                    <div class="dashboard-stat-icon"><i class="im im-icon-Line-Chart"></i></div>
+                                </div>
+                            </a>
+                        </div>
+
+
+                  
+                </div>
+                <!-- Content / End -->
+
+               
+            </div>
+            <!-- Dashboard / End -->
+            </div>
+
+
+
+            </body>
+
+            <!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:08 GMT -->
+            </html>

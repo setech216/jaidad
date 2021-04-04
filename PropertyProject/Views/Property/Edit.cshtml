@@ -1,0 +1,491 @@
+﻿@model ModelLayer.PropertyEditingGetModel
+@using ModelLayer;
+@{
+    ViewBag.Title = "Edit Property";
+    ViewBag.isSideBar = "true";
+}
+<!-- Dashboard -->
+    
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Edit Property</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div align="center"><h4 style="color:red;">@ViewBag.postPhase</h4></div>
+
+                <!--page Data Starts here -->
+                <div class="row ">
+
+                    <div class="  col-sm-12">
+                        @using (Html.BeginForm("Edit", "Property", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div align="center"><h1 class="h3 mb-3 font-weight-normal "><b class="mainHeading" style="color:black">Edit Property</b></h1></div>
+                            <input type="hidden" name="id" value=@Model.id >
+                            <!--purpose -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Purpose</b></span></div>
+                                    <select class="form-control" name="purpose" id="purpose" onChange="" required>
+                                        @if (Model.purpose != null)
+                                        {
+                                            <option selected value="@Model.purpose">@Model.purpose</option>}
+                                        else
+                                        {
+                                            <option selected value="">select purpose</option>}
+                                        <option value="sell">sell</option>
+                                        <option value="rent">rent</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--property type -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Property Type</b></span></div>
+                                    <select class="form-control" name="type_id" id="propertyType" onChange="showDetails()" required>
+                                        @if (Model.propertyTypeModel != null)
+                                        {
+                                            <option selected value="@Model.propertyTypeModel.id">@Model.propertyTypeModel.name</option>}
+                                        else
+                                        {
+                                            <option slected value="">Select Property Type</option>}
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--title -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Property Title</b></span></div>
+                                    <input type="text" value="@Model.title" maxlength="250" name="title" id="title" class="form-control" placeholder="Title" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--description -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Description</b></span></div>
+                                    <textarea id="description" maxlength="1000" name="description" rows="4" cols="50">@Model.description</textarea>
+                                </div>
+                            </div>
+
+
+                            <!--straight line for details -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <div class="inputSpace"></div>
+                                <div style="background-color:black;height:1px;"></div>
+                            </div>
+                            <div class="  col-sm-12 ">
+                                <div style=""> <p><b style="color:black; font-size:20px"><i class='fas fa-angle-double-right'></i> Details</b></p></div>
+                            </div>
+
+                            <!--area -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Area</b></span></div>
+                                    <input type="number" value="@Model.area" name="area" step="any" id="area_unit" class="form-control" placeholder="Area" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                    <select class="form-control" name="area_unit" id="propertyType" required>
+                                        
+                                         @if (Model.area_unit != null)
+                                        {
+                                            <option selected value="@Model.area_unit">@Model.area_unit</option>}
+                                        else
+                                        {
+                                            <option slected value="">Unit For Area</option>}
+                                        <option slected value="Marla">Marla</option>
+                                        <option slected value="Kanal">Kanal</option>
+                                        <option slected value="SquareFeet">SquareFeet</option>
+                                        <option slected value="SquareYard">SquareYard</option>
+                                        <option slected value="SquareMeter">SquareMeter</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!--price -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Price</b></span></div>
+                                    <input type="number" value="@Model.price" name="price" id="price" class="form-control" placeholder="Price" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--is corner? -->
+                            <div class="  col-sm-6" id="app">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Is Corner Plot?</b></span></div>
+
+                                    <select class="form-control" name="corner" id="corner">
+                                        <option slected value="">Is Corner Plot?</option>
+                                        @if (Model.isCorner != null)
+                                        {
+                                            <option selected value="@Model.isCorner">@Model.isCorner</option>}
+                                        else
+                                        {
+                                            <option slected value="">Unit For Area</option>}
+                                        <option value="No">No  </option>
+                                        <option value="Yes">Yes</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                             
+                                if (Model.propertyTypeModel.id == 2)//file
+                                {
+                                     <!--Affidavit Price -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Affidavit Price</b></span></div>
+                                    <input type="number" value="@Model.affidavit_price" name="affidavit_price" class="form-control" placeholder="Affidavit Price" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+                                }
+                            
+
+                                 if (Model.propertyTypeModel.id == 1)//file
+                                {
+                                     <!--Plot type -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Plot Type</b></span></div>
+                                   <select class="form-control" name="plot_type" required>
+                                    
+                                        @if (Model.plot_type != null)
+                                        {
+                                            <option selected value="@Model.plot_type">@Model.plot_type</option>}
+                                        else
+                                        {
+                                            <option slected value="">Select Plot Type</option>}
+                                            <option value="Residential">Residential</option>
+                                            <option value="Commertial">Commertial</option>
+
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <!--Plot No-->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Plot No</b></span></div>
+                                    <input type="text" value="@Model.plot_no" name="plot_no" class="form-control" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+                                }
+                            
+                            <!--straight line for owner details -->
+                            <div class="  col-sm-12 ">
+                                <div class="inputSpace"></div>
+                                <div class="inputSpace"></div>
+                                <div style="background-color:black;height:1px;"></div>
+                            </div>
+                            <div class="  col-sm-12 ">
+                                <div style=""> <p><b style="color:black; font-size:20px"><i class='fas fa-angle-double-right'></i>Owner Details</b></p></div>
+                            </div>
+
+                            <!--owner name -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Name</b></span></div>
+                                    <input type="text" value="@Model.ownerName" name="owner_name" id="ownerName" class="form-control" placeholder="Owner Name" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--owner contact 1 -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Contact No.1</b></span></div>
+                                    <input type="number" value="@Model.ownerContact1" name="owner_contact1" id="ownerCont1" class="form-control" placeholder="Owner Contact No.1" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>
+                                </div>
+                            </div>
+
+                            <!--owner contact 2 -->
+                            <div class="  col-sm-8 ">
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Owner Contact No.2</b></span></div>
+                                    <input type="number" value="@Model.ownerContact2" name="owner_contact2" id="ownerCont2" class="form-control" placeholder="Owner Contact No.1(optional)" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                                </div>
+                            </div>
+
+                            <!--dealer-->
+                            if ((Request.Cookies["user"] != null))
+                            {
+                                int roleId;
+                                Int32.TryParse(Request.Cookies["user"]["roleId"], out roleId);
+                                if ((roleId == (int)Role.admin) || (roleId == (int)Role.superAdmin))
+                                {
+                                    <div class="  col-sm-8 ">
+                                        <div class="inputSpace"></div>
+                                        <div class="form-group input-group input-group-lg">
+                                            <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Agent</b></span></div>
+                                            <select class="form-control" name="dealer_id" id="dealer" required>
+
+                                                @if (Model.dealerModel != null)
+                                                {
+                                                    <option selected value="@Model.dealerModel.Id">@Model.dealerModel.Name</option>}
+                                                else
+                                                {
+                                                    <option slected value=""> Select Agent </option>}
+                                                @{List<UserModel> agentList = ViewBag.agents;
+                                                    if (agentList != null)
+                                                    {
+                                                        foreach (UserModel obj in agentList)
+                                                        {
+                                                            <option slected value=@obj.Id> @obj.Name </option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                }
+
+                            }
+                        
+                            <!--add record -->
+                            <div class="  col-sm-6 ">
+                                <div class="inputSpace"></div>
+                                <button class="btn-my first">Update</button>
+                            </div>
+
+                        }
+
+
+                    </div>
+                </div>
+
+
+
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+    <!-- Content / End -->
+
+</div>
+<!-- Dashboard / End -->
+</div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCER7BUrzg5FXz5hivZKd2XzkWAMrTlX2k&callback=myMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCER7BUrzg5FXz5hivZKd2XzkWAMrTlX2k&callback=map"></script>
+
+
+
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+</html>
+
+<style>
+    .btn-file {
+        position: relative;
+        overflow: hidden;
+    }
+
+        .btn-file input[type=file] {
+            position: absolute;
+            top: 0;
+            right: 0;
+            min-width: 100%;
+            min-height: 100%;
+            font-size: 100px;
+            text-align: right;
+            filter: alpha(opacity=0);
+            opacity: 0;
+            outline: none;
+            cursor: inherit;
+            display: block;
+        }
+
+    .btn-img {
+        border-radius: 0px;
+        border: 4px solid black;
+        background-color: #f91942;
+        color: white;
+        text-align: center;
+        padding-top: 13px;
+        padding-bottom: 13px;
+        width: 100%x;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .first-img {
+        border-color: #f91942;
+        color: white;
+    }
+
+        .first-img:hover {
+            background-color: white;
+            color: #f91942;
+            border: 4px solid #f91942;
+        }
+</style>
+
+<script>
+
+    function showDetails() {
+        var e = document.getElementById("propertyType");
+        var value = e.options[e.selectedIndex].value;
+
+        if (value == 1)//plot
+        {
+            $("#d4").remove();
+
+            var title = "Plot No";
+            var name = "plot_no";
+            var d = "d3"
+
+
+            var div1 = $("<div></div>").attr("class", "col-sm-6").attr("id", d);
+
+            var div1_1 = $("<div></div>").attr("class", "inputSpace");
+            var div1_2 = $("<div></div>").attr("class", "form-group input-group input-group-lg");
+            var div1_3 = $("<div></div>").attr("class", "input-group-prepend");
+            var span1 = $("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+            var b1 = $("<b>" + title + "</b>");
+
+            var inp1 = $('<input>').attr({
+                type: 'text',
+                id: name,
+                name: name,
+                class: 'form-control',
+                placeholder: title
+
+
+            });
+            inp1.attr('required', 'true');
+            inp1.attr("aria-describedby", "inputGroup-sizing-sm").attr("aria-label", "Large")
+            div1.append(div1_1);
+            span1.append(b1);
+            div1_3.append(span1);
+            div1_2.append(div1_3);
+            div1_2.append(inp1);
+            div1.append(div1_2);
+            $("#app").after(div1);
+
+
+            var div2 = $("<div></div>").attr("class", "col-sm-6").attr("id", "d5");
+            var div2_1 = $("<div></div>").attr("class", "inputSpace");
+            var div2_2 = $("<div></div>").attr("class", "form-group input-group input-group-lg");
+            var div2_3 = $("<div></div>").attr("class", "input-group-prepend");
+            var span2 = $("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+            var b2 = $("<b>Plot Type</b>");
+            var slc2 = $('<select >Select Plot Type</select>').attr({
+                id: 'floorType',
+                name: 'plot_type',
+                class: 'form-control'
+
+            });
+            slc2.attr('required', 'true');
+            var op3 = $('<option value="">Select Plot Type</option>');
+            var op0 = $('<option value="Residential">Residential</option>');
+            var op1 = $('<option value="Commertial">Commertial</option>');
+            slc2.append(op3);
+            slc2.append(op0);
+            slc2.append(op1);
+
+            div2.append(div2_1);
+            span2.append(b2);
+            div2_3.append(span2);
+            div2_2.append(div2_3);
+            div2_2.append(slc2);
+            div2.append(div2_2);
+            $("#app").after(div2);
+        }
+        else {
+
+
+            $("#d3").remove();
+            $("#d5").remove();
+            $("#d4").remove();
+        }
+
+        if (value == 2)//file
+        {
+            $("#d5").remove();
+            $("#d3").remove();
+
+            var title = "Affidavit Price";
+            var name = "affidavit_price";
+            var d = "d4"
+
+
+            var div1 = $("<div></div>").attr("class", "col-sm-6").attr("id", d);
+
+            var div1_1 = $("<div></div>").attr("class", "inputSpace");
+            var div1_2 = $("<div></div>").attr("class", "form-group input-group input-group-lg");
+            var div1_3 = $("<div></div>").attr("class", "input-group-prepend");
+            var span1 = $("<span></span>").attr("class", "input-group-text").attr("id", "inputLabel");
+            var b1 = $("<b>" + title + "</b>");
+
+            var inp1 = $('<input>').attr({
+                type: 'number',
+                id: name,
+                name: name,
+                class: 'form-control',
+                placeholder: title
+
+
+            });
+
+            inp1.attr("aria-describedby", "inputGroup-sizing-sm").attr("aria-label", "Large")
+            div1.append(div1_1);
+            span1.append(b1);
+            div1_3.append(span1);
+            div1_2.append(div1_3);
+            div1_2.append(inp1);
+            div1.append(div1_2);
+            $("#app").after(div1);
+
+
+        }
+        else {
+
+
+            $("#d4").remove();
+
+
+        }
+    }
+
+</script>
+

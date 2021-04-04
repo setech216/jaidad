@@ -1,0 +1,997 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="propertyDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="roleId" Type="int" />
+          <Property Name="name" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="block">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_id" Type="int" />
+          <Property Name="society_id" Type="int" />
+          <Property Name="phase_id" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="lat" Type="varchar" MaxLength="250" />
+          <Property Name="lng" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="city_id" />
+          </Key>
+          <Property Name="city_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="lat" Type="varchar" MaxLength="250" />
+          <Property Name="lng" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="inquiry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="phone" Type="varchar" MaxLength="250" />
+          <Property Name="email" Type="varchar" MaxLength="250" />
+          <Property Name="description" Type="varchar" MaxLength="500" />
+          <Property Name="property_id" Type="int" />
+          <Property Name="date" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="phase">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_id" Type="int" />
+          <Property Name="society_id" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="lat" Type="varchar" MaxLength="250" />
+          <Property Name="lng" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="property">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="purpose" Type="varchar" MaxLength="250" />
+          <Property Name="type_id" Type="int" />
+          <Property Name="title" Type="varchar" MaxLength="250" />
+          <Property Name="description" Type="varchar" MaxLength="1000" />
+          <Property Name="city_id" Type="int" />
+          <Property Name="society_id" Type="int" />
+          <Property Name="phase_id" Type="int" />
+          <Property Name="block_id" Type="int" />
+          <Property Name="lat" Type="varchar" MaxLength="250" />
+          <Property Name="lng" Type="varchar" MaxLength="250" />
+          <Property Name="area" Type="float" />
+          <Property Name="area_unit" Type="varchar" MaxLength="250" />
+          <Property Name="area_in_marla" Type="float" />
+          <Property Name="price" Type="int" />
+          <Property Name="is_corner" Type="bit" />
+          <Property Name="image" Type="varchar" MaxLength="250" />
+          <Property Name="owner_name" Type="varchar" MaxLength="250" />
+          <Property Name="owner_contact1" Type="varchar" MaxLength="250" />
+          <Property Name="owner_contact2" Type="varchar" MaxLength="250" />
+          <Property Name="is_available" Type="bit" />
+          <Property Name="dealer_id" Type="nvarchar" MaxLength="128" />
+          <Property Name="affidavit_price" Type="varchar" MaxLength="250" />
+          <Property Name="price_with_comma" Type="varchar" MaxLength="250" />
+          <Property Name="views" Type="int" />
+          <Property Name="isSelected" Type="bit" />
+          <Property Name="userId" Type="nvarchar" MaxLength="128" />
+          <Property Name="type_name" Type="varchar" MaxLength="250" />
+          <Property Name="city_name" Type="varchar" MaxLength="250" />
+          <Property Name="society_name" Type="varchar" MaxLength="250" />
+          <Property Name="phase_name" Type="varchar" MaxLength="250" />
+          <Property Name="block_name" Type="varchar" MaxLength="250" />
+          <Property Name="plot_no" Type="varchar" MaxLength="250" />
+          <Property Name="plot_type" Type="varchar" MaxLength="250" />
+          <Property Name="affidavit_price_with_comma" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="property_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="society">
+          <Key>
+            <PropertyRef Name="society_id" />
+          </Key>
+          <Property Name="society_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="city_id" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="250" />
+          <Property Name="lat" Type="varchar" MaxLength="250" />
+          <Property Name="lng" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="userRole">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_AspNetUsers_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUsers1" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUsers_userRole">
+          <End Role="userRole" Type="Self.userRole" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userRole">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_phase">
+          <End Role="phase" Type="Self.phase" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="phase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inquiry_property">
+          <End Role="property" Type="Self.property" Multiplicity="0..1" />
+          <End Role="inquiry" Type="Self.inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="property">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inquiry">
+              <PropertyRef Name="property_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_phase_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="phase" Type="Self.phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="phase">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_phase_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="phase" Type="Self.phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="phase">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="dealer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_AspNetUsers1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_block">
+          <End Role="block" Type="Self.block" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="block">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="block_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_phase">
+          <End Role="phase" Type="Self.phase" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="phase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_property_type">
+          <End Role="property_type" Type="Self.property_type" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="property_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_society_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="society" Type="Self.society" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="society">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="propertyDbModelStoreContainer">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="block" EntityType="Self.block" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="city" EntityType="Self.city" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="inquiry" EntityType="Self.inquiry" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="phase" EntityType="Self.phase" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="property" EntityType="Self.property" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="property_type" EntityType="Self.property_type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="society" EntityType="Self.society" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userRole" EntityType="Self.userRole" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_AspNetUsers_AspNetUsers" Association="Self.FK_AspNetUsers_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUsers1" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_userRole" Association="Self.FK_AspNetUsers_userRole">
+            <End Role="userRole" EntitySet="userRole" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_city" Association="Self.FK_block_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_phase" Association="Self.FK_block_phase">
+            <End Role="phase" EntitySet="phase" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_society" Association="Self.FK_block_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inquiry_property" Association="Self.FK_inquiry_property">
+            <End Role="property" EntitySet="property" />
+            <End Role="inquiry" EntitySet="inquiry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_phase_city" Association="Self.FK_phase_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="phase" EntitySet="phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_phase_society" Association="Self.FK_phase_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="phase" EntitySet="phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_AspNetUsers" Association="Self.FK_property_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_AspNetUsers1" Association="Self.FK_property_AspNetUsers1">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_block" Association="Self.FK_property_block">
+            <End Role="block" EntitySet="block" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_city" Association="Self.FK_property_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_phase" Association="Self.FK_property_phase">
+            <End Role="phase" EntitySet="phase" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_property_type" Association="Self.FK_property_property_type">
+            <End Role="property_type" EntitySet="property_type" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_society" Association="Self.FK_property_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_society_city" Association="Self.FK_society_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="society" EntitySet="society" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="propertyDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="roleId" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers1" Relationship="Self.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUsers" ToRole="AspNetUsers1" />
+          <NavigationProperty Name="AspNetUsers2" Relationship="Self.FK_AspNetUsers_AspNetUsers" FromRole="AspNetUsers1" ToRole="AspNetUsers" />
+          <NavigationProperty Name="userRole" Relationship="Self.FK_AspNetUsers_userRole" FromRole="AspNetUsers" ToRole="userRole" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_AspNetUsers" FromRole="AspNetUsers" ToRole="property" />
+          <NavigationProperty Name="property1" Relationship="Self.FK_property_AspNetUsers1" FromRole="AspNetUsers" ToRole="property" />
+        </EntityType>
+        <EntityType Name="block">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_id" Type="Int32" />
+          <Property Name="society_id" Type="Int32" />
+          <Property Name="phase_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lat" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lng" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="city" Relationship="Self.FK_block_city" FromRole="block" ToRole="city" />
+          <NavigationProperty Name="phase" Relationship="Self.FK_block_phase" FromRole="block" ToRole="phase" />
+          <NavigationProperty Name="society" Relationship="Self.FK_block_society" FromRole="block" ToRole="society" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_block" FromRole="block" ToRole="property" />
+        </EntityType>
+        <EntityType Name="city">
+          <Key>
+            <PropertyRef Name="city_id" />
+          </Key>
+          <Property Name="city_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lat" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lng" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="block" Relationship="Self.FK_block_city" FromRole="city" ToRole="block" />
+          <NavigationProperty Name="phase" Relationship="Self.FK_phase_city" FromRole="city" ToRole="phase" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_city" FromRole="city" ToRole="property" />
+          <NavigationProperty Name="society" Relationship="Self.FK_society_city" FromRole="city" ToRole="society" />
+        </EntityType>
+        <EntityType Name="inquiry">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="phone" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="property_id" Type="Int32" />
+          <NavigationProperty Name="property" Relationship="Self.FK_inquiry_property" FromRole="inquiry" ToRole="property" />
+          <Property Name="date" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="phase">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_id" Type="Int32" />
+          <Property Name="society_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lat" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lng" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="block" Relationship="Self.FK_block_phase" FromRole="phase" ToRole="block" />
+          <NavigationProperty Name="city" Relationship="Self.FK_phase_city" FromRole="phase" ToRole="city" />
+          <NavigationProperty Name="society" Relationship="Self.FK_phase_society" FromRole="phase" ToRole="society" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_phase" FromRole="phase" ToRole="property" />
+        </EntityType>
+        <EntityType Name="property">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="purpose" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="type_id" Type="Int32" />
+          <Property Name="title" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="city_id" Type="Int32" />
+          <Property Name="society_id" Type="Int32" />
+          <Property Name="phase_id" Type="Int32" />
+          <Property Name="block_id" Type="Int32" />
+          <Property Name="lat" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lng" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="area" Type="Double" />
+          <Property Name="area_unit" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="area_in_marla" Type="Double" />
+          <Property Name="price" Type="Int32" />
+          <Property Name="is_corner" Type="Boolean" />
+          <Property Name="image" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="owner_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="owner_contact1" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="owner_contact2" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="is_available" Type="Boolean" />
+          <Property Name="dealer_id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="affidavit_price" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="price_with_comma" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="views" Type="Int32" />
+          <Property Name="isSelected" Type="Boolean" />
+          <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="type_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="city_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="society_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="phase_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="block_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="plot_no" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="plot_type" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="affidavit_price_with_comma" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_property_AspNetUsers" FromRole="property" ToRole="AspNetUsers" />
+          <NavigationProperty Name="AspNetUsers1" Relationship="Self.FK_property_AspNetUsers1" FromRole="property" ToRole="AspNetUsers" />
+          <NavigationProperty Name="block" Relationship="Self.FK_property_block" FromRole="property" ToRole="block" />
+          <NavigationProperty Name="city" Relationship="Self.FK_property_city" FromRole="property" ToRole="city" />
+          <NavigationProperty Name="inquiry" Relationship="Self.FK_inquiry_property" FromRole="property" ToRole="inquiry" />
+          <NavigationProperty Name="phase" Relationship="Self.FK_property_phase" FromRole="property" ToRole="phase" />
+          <NavigationProperty Name="property_type" Relationship="Self.FK_property_property_type" FromRole="property" ToRole="property_type" />
+          <NavigationProperty Name="society" Relationship="Self.FK_property_society" FromRole="property" ToRole="society" />
+        </EntityType>
+        <EntityType Name="property_type">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_property_type" FromRole="property_type" ToRole="property" />
+        </EntityType>
+        <EntityType Name="society">
+          <Key>
+            <PropertyRef Name="society_id" />
+          </Key>
+          <Property Name="society_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="city_id" Type="Int32" />
+          <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lat" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="lng" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="block" Relationship="Self.FK_block_society" FromRole="society" ToRole="block" />
+          <NavigationProperty Name="city" Relationship="Self.FK_society_city" FromRole="society" ToRole="city" />
+          <NavigationProperty Name="phase" Relationship="Self.FK_phase_society" FromRole="society" ToRole="phase" />
+          <NavigationProperty Name="property" Relationship="Self.FK_property_society" FromRole="society" ToRole="property" />
+        </EntityType>
+        <EntityType Name="userRole">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_AspNetUsers_userRole" FromRole="userRole" ToRole="AspNetUsers" />
+        </EntityType>
+        <Association Name="FK_AspNetUsers_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="AspNetUsers1" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUsers1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AspNetUsers_userRole">
+          <End Role="userRole" Type="Self.userRole" Multiplicity="0..1" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userRole">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="AspNetUsers">
+              <PropertyRef Name="roleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="dealer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_AspNetUsers1">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_phase">
+          <End Role="phase" Type="Self.phase" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="phase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_block_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="block" Type="Self.block" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="block">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_block">
+          <End Role="block" Type="Self.block" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="block">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="block_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_phase_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="phase" Type="Self.phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="phase">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_society_city">
+          <End Role="city" Type="Self.city" Multiplicity="0..1" />
+          <End Role="society" Type="Self.society" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="city">
+              <PropertyRef Name="city_id" />
+            </Principal>
+            <Dependent Role="society">
+              <PropertyRef Name="city_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_inquiry_property">
+          <End Role="property" Type="Self.property" Multiplicity="0..1" />
+          <End Role="inquiry" Type="Self.inquiry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="property">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="inquiry">
+              <PropertyRef Name="property_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_phase_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="phase" Type="Self.phase" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="phase">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_phase">
+          <End Role="phase" Type="Self.phase" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="phase">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="phase_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_property_type">
+          <End Role="property_type" Type="Self.property_type" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="property_type">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="type_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_property_society">
+          <End Role="society" Type="Self.society" Multiplicity="0..1" />
+          <End Role="property" Type="Self.property" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="society">
+              <PropertyRef Name="society_id" />
+            </Principal>
+            <Dependent Role="property">
+              <PropertyRef Name="society_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="propertyDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="block" EntityType="Self.block" />
+          <EntitySet Name="city" EntityType="Self.city" />
+          <EntitySet Name="inquiry" EntityType="Self.inquiry" />
+          <EntitySet Name="phase" EntityType="Self.phase" />
+          <EntitySet Name="property" EntityType="Self.property" />
+          <EntitySet Name="property_type" EntityType="Self.property_type" />
+          <EntitySet Name="society" EntityType="Self.society" />
+          <EntitySet Name="userRole" EntityType="Self.userRole" />
+          <AssociationSet Name="FK_AspNetUsers_AspNetUsers" Association="Self.FK_AspNetUsers_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUsers1" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AspNetUsers_userRole" Association="Self.FK_AspNetUsers_userRole">
+            <End Role="userRole" EntitySet="userRole" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_AspNetUsers" Association="Self.FK_property_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_AspNetUsers1" Association="Self.FK_property_AspNetUsers1">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_city" Association="Self.FK_block_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_phase" Association="Self.FK_block_phase">
+            <End Role="phase" EntitySet="phase" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_block_society" Association="Self.FK_block_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="block" EntitySet="block" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_block" Association="Self.FK_property_block">
+            <End Role="block" EntitySet="block" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_phase_city" Association="Self.FK_phase_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="phase" EntitySet="phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_city" Association="Self.FK_property_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_society_city" Association="Self.FK_society_city">
+            <End Role="city" EntitySet="city" />
+            <End Role="society" EntitySet="society" />
+          </AssociationSet>
+          <AssociationSet Name="FK_inquiry_property" Association="Self.FK_inquiry_property">
+            <End Role="property" EntitySet="property" />
+            <End Role="inquiry" EntitySet="inquiry" />
+          </AssociationSet>
+          <AssociationSet Name="FK_phase_society" Association="Self.FK_phase_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="phase" EntitySet="phase" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_phase" Association="Self.FK_property_phase">
+            <End Role="phase" EntitySet="phase" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_property_type" Association="Self.FK_property_property_type">
+            <End Role="property_type" EntitySet="property_type" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+          <AssociationSet Name="FK_property_society" Association="Self.FK_property_society">
+            <End Role="society" EntitySet="society" />
+            <End Role="property" EntitySet="property" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="propertyDbModelStoreContainer" CdmEntityContainer="propertyDbEntities">
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="propertyDbModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="roleId" ColumnName="roleId" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="block">
+            <EntityTypeMapping TypeName="propertyDbModel.block">
+              <MappingFragment StoreEntitySet="block">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="society_id" ColumnName="society_id" />
+                <ScalarProperty Name="phase_id" ColumnName="phase_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lng" ColumnName="lng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="city">
+            <EntityTypeMapping TypeName="propertyDbModel.city">
+              <MappingFragment StoreEntitySet="city">
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lng" ColumnName="lng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="inquiry">
+            <EntityTypeMapping TypeName="propertyDbModel.inquiry">
+              <MappingFragment StoreEntitySet="inquiry">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="property_id" ColumnName="property_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="phase">
+            <EntityTypeMapping TypeName="propertyDbModel.phase">
+              <MappingFragment StoreEntitySet="phase">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="society_id" ColumnName="society_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lng" ColumnName="lng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="property">
+            <EntityTypeMapping TypeName="propertyDbModel.property">
+              <MappingFragment StoreEntitySet="property">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="purpose" ColumnName="purpose" />
+                <ScalarProperty Name="type_id" ColumnName="type_id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="society_id" ColumnName="society_id" />
+                <ScalarProperty Name="phase_id" ColumnName="phase_id" />
+                <ScalarProperty Name="block_id" ColumnName="block_id" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lng" ColumnName="lng" />
+                <ScalarProperty Name="area" ColumnName="area" />
+                <ScalarProperty Name="area_unit" ColumnName="area_unit" />
+                <ScalarProperty Name="area_in_marla" ColumnName="area_in_marla" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="is_corner" ColumnName="is_corner" />
+                <ScalarProperty Name="image" ColumnName="image" />
+                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
+                <ScalarProperty Name="owner_contact1" ColumnName="owner_contact1" />
+                <ScalarProperty Name="owner_contact2" ColumnName="owner_contact2" />
+                <ScalarProperty Name="is_available" ColumnName="is_available" />
+                <ScalarProperty Name="dealer_id" ColumnName="dealer_id" />
+                <ScalarProperty Name="affidavit_price" ColumnName="affidavit_price" />
+                <ScalarProperty Name="price_with_comma" ColumnName="price_with_comma" />
+                <ScalarProperty Name="views" ColumnName="views" />
+                <ScalarProperty Name="isSelected" ColumnName="isSelected" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="city_name" ColumnName="city_name" />
+                <ScalarProperty Name="society_name" ColumnName="society_name" />
+                <ScalarProperty Name="phase_name" ColumnName="phase_name" />
+                <ScalarProperty Name="block_name" ColumnName="block_name" />
+                <ScalarProperty Name="plot_no" ColumnName="plot_no" />
+                <ScalarProperty Name="plot_type" ColumnName="plot_type" />
+                <ScalarProperty Name="affidavit_price_with_comma" ColumnName="affidavit_price_with_comma" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="property_type">
+            <EntityTypeMapping TypeName="propertyDbModel.property_type">
+              <MappingFragment StoreEntitySet="property_type">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="society">
+            <EntityTypeMapping TypeName="propertyDbModel.society">
+              <MappingFragment StoreEntitySet="society">
+                <ScalarProperty Name="society_id" ColumnName="society_id" />
+                <ScalarProperty Name="city_id" ColumnName="city_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="lat" ColumnName="lat" />
+                <ScalarProperty Name="lng" ColumnName="lng" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userRole">
+            <EntityTypeMapping TypeName="propertyDbModel.userRole">
+              <MappingFragment StoreEntitySet="userRole">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,194 @@
+﻿@using ModelLayer;
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<ModelLayer.PropertyListingModel>
+@{
+    ViewBag.Title = "UnavailableProperties";
+    ViewBag.isSideBar = "false";
+}
+<div class="row"style="margin-bottom:10px;margin-top:20px">
+    <div class="col-sm-12" align="center">
+        <p style="font-size:25px">
+            <span class="label label-success" style="display: inline-block; margin: 10px 0;    "><b style="color:white;">Unavailable Properties</b></span>
+           
+        </p>
+    </div>
+</div>
+
+
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div style="height:30px"></div>
+            @{  bool isAdmin = false;}     
+            @if ((Request.Cookies["user"] != null))
+                                    {
+                                        int roleId;
+                                        Int32.TryParse(Request.Cookies["user"]["roleId"], out roleId);
+                                        if ((roleId == (int)Role.admin) || (roleId == (int)Role.superAdmin))
+                                        {
+                                            isAdmin = true;
+                                        }
+                                    }
+            
+                <div class="row">
+
+                    @foreach (PropertyListingModel obj in Model)
+                    {
+                        <!-- Listing Item -->
+                        <div class="col-lg-12 col-md-12">
+                            <div class="listing-item-container list-layout" style="height:auto" id="@obj.id">
+                                 @{if (isAdmin) {
+                                         string btnId = @obj.id + "btn";
+                                                  <button class="btn-my special2" onclick="deleteProperty(@obj.id)" style="position:absolute;flex:1;z-index:1000;margin-top:10px;margin-left:5px">Delete</button>
+                                                if (obj.isAvailable == true)
+                                                { <button class="btn-my special2" id=@btnId onclick="MarkAsUnavailable(@obj.id)" style="position:absolute;z-index:1000;margin-top:10px; margin-left:60px">Mark as UnAvailable</button>}
+                                                else{ <button class="btn-my special2" id=@btnId onclick="MarkAsAvailable(@obj.id)" style="position:absolute;z-index:1000;margin-top:10px; margin-left:70px">Mark as Available</button>}
+                                                <button class="btn-my special2"  onclick="window.location.href='/Property/Edit/'+@obj.id" style="position:absolute;z-index:1000;margin-top:10px; margin-left:215px">Edit</button>
+                                            }
+                                        string avSpanId = @obj.id + "availableSpan";
+                                        }
+                                @{if (obj.isAvailable ==true)
+                                                    {<span class="label label-success"  style="position:absolute;z-index:1000;margin-top:50px; margin-left:7px"><b id=@avSpanId style="color:white;font-size:15px">Available</b></span>}}
+                                 @{if (obj.isAvailable ==false)
+                                                    {<span class="label label-success" style="position:absolute;z-index:1000;margin-top:50px; margin-left:7px"><b id=@avSpanId style="color:white;font-size:15px">Not Available</b></span>}}
+                                 @{if (obj.isSelected ==true)
+                                                    {<span class="label label-success" style="position:absolute;z-index:1000;margin-top:50px; margin-left:120px"><b style="color:white;font-size:15px">Selected</b></span>}}
+                                 @{if (obj.isSelected ==false)
+                                                    {<span class="label label-success" style="position:absolute;z-index:1000;margin-top:50px; margin-left:120px"><b style="color:white;font-size:15px">Not Selected</b></span>}}
+                                <a href="/Property/Details/@obj.id" class="listing-item">
+
+                                    <!-- Image -->
+                                    @{
+                                        string img = "";
+                                        if (obj.image != null)
+                                        {
+                                            string[] temp = obj.image.Split(',');
+                                            img = "~" + temp[0];
+                                        }
+
+                                    }
+                                    <div class="listing-item-image" style="width:300px;height:250px">
+                                        <img src="@Url.Content(@img)">
+
+                                        <span class="tag" style="margin-bottom:20px"><b style="color:white;font-size:15px;">@obj.plot_type @obj.type_name</b></span>
+                                    </div>
+                                    @{
+                                        string purpos = "";
+                                        if (obj.purpose == "rent")
+                                        { purpos = "For Rent"; }
+                                        if (obj.purpose == "sell")
+                                        { purpos = "For Sale"; }
+                                    }
+                                    <!-- Content -->
+                                    <div class="listing-item-content">
+                                        <div class="listing-badge now-open">@purpos</div>
+
+                                        <div class="listing-item-inner">
+                                            @{
+                                                string title;
+                                                if (obj.title != null)
+                                                {
+                                                    string temp1 = obj.title;
+                                                    if (temp1.Length > 40)
+                                                    {
+                                                        title = temp1.Substring(0, 40);
+                                                        title = title + "....";
+                                                    }
+                                                    else
+                                                    { title = temp1; }
+                                                }
+                                                else
+                                                {
+                                                    title = "";
+                                                }
+                                            }
+
+                                            <h3 style="color:#06a105;font-size:25px"><b>@title </b> <i class="verified-icon"></i></h3>
+
+
+                                            @{
+                                                string desc;
+                                                if (obj.description != null)
+                                                {
+                                                    string temp = obj.description;
+                                                    if (temp.Length > 250)
+                                                    {
+                                                        desc = temp.Substring(0, 150);
+                                                        desc = desc + "....";
+                                                    }
+                                                    else
+                                                    { desc = temp; }
+                                                }
+                                                else
+                                                {
+                                                    desc = "";
+                                                }
+                                            }
+                                            <span style="color:black">@desc </span>
+                                            <p>
+                                                @{if (obj.area != null)
+                                                    {<span class="label label-success"><b style="color:white">@obj.area @obj.area_unit</b></span>}}
+                                                @{if (obj.price_with_comma != null)
+                                                    {<span class="label label-warning"><b style="color:white">PKR-@obj.price_with_comma /-</b></span>}}
+                                                @{if (obj.city_name != null)
+                                                    {<span class="label label-info"><b style="color:white">@obj.city_name</b></span>}}
+                                                @{if (obj.society_name != null)
+                                                    {<span class="label label-success"><b style="color:white">@obj.society_name</b></span>}}
+                                                @{if (obj.phase_name != null)
+                                                    {<span class="label label-warning"><b style="color:white">@obj.phase_name</b></span>}}
+                                                @{if (obj.block_name != null)
+                                                    {<span class="label label-info"><b style="color:white">@obj.block_name</b></span>}}
+                                                @{if (obj.plot_no != null)
+                                                    {<span class="label label-success"><b style="color:white">PlotNO:@obj.plot_no</b></span>}}
+                                                <span class="label label-warning"><b style="color:white">id:@obj.id /-</b></span>
+                                            </p>
+                                            <p>
+                                                <span class="label label-danger" style="font-size:20px"><b style="color:white">Call Now:@obj.dealer_phone </b></span>
+                                                <span class="label label-danger" style="font-size:20px;display: inline-block; margin: 10px 0;"><b style="color:white">Mr. @obj.dealer_name</b></span>
+                                            </p>
+
+
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- Listing Item / End -->
+
+
+                                                    }
+
+                </div>
+                @Html.PagedListPager(Model, i => Url.Action("UnavailableProperties", "Dashboard", new
+                {
+                    i,
+
+                }))
+
+            
+           
+        </div>
+
+    </div>
+</div>
+<!-- Flip banner / End -->
+<!-- Footer
+================================================== -->
+@RenderPage("~/Views/Shared/footer.cshtml")
+<!-- Footer / End -->
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+
+    </div>
+
+    </body>
+    </html>
+
+
+

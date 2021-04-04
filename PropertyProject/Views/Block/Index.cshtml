@@ -1,0 +1,170 @@
+﻿@using ModelLayer;
+@using DbLayer.db;
+@{
+    ViewBag.Title = "Phase List";
+    ViewBag.isSideBar = "true";
+}
+<!-- Dashboard -->
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Content
+        ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Block List</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Block List</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                
+                          
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select City</b></span></div>
+                                    <select class="form-control" name="city_id" id="city" onChange="showSocieties(); cityMap();" required>
+                                        <option slected value=""> Select City </option>
+
+                                        @{List<CityModel> cityList = ViewBag.cities;
+                                            if (cityList != null)
+                                            {
+                                                foreach (CityModel city in cityList)
+                                                {
+                                                    <option slected value=@city.id> @city.name </option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            
+
+                            <!--society -->
+                     
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Society/Area</b></span></div>
+                                    <select class="form-control" name="society_id" id="society" onChange="showPhases(); showBlocks('soc'); societyMap();" required></select>
+                                </div>
+                         
+
+                            <!--phase -->
+                       
+                                <div class="inputSpace"></div>
+                                <div class="form-group input-group input-group-lg">
+                                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Phase (optional)</b></span></div>
+                                    <select class="form-control" name="phase_id" id="phase" onChange="showBlocks('ph'); phaseMap();">
+                                        <option selected> Select Phase(optional) </option>
+
+                                    </select>
+                                </div>
+                        
+
+
+                <div align="center"><h4 style="color:red;">@ViewBag.postCity</h4></div>
+                <!--page Data Starts here -->
+                <div class="row ">
+                    <div align="center"><h4 style="color:red;">choose from list to update</h4></div>
+                    <div id="list" align="center" style="margin-top:20px;margin-bottom:20px">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+</div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+</body>
+
+<script>
+    function showSocieties() {
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                var list = JSON.parse(s);
+                var html = '<option  value=""> Select Society/Area</option>';
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("society").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Society/getSocieties?cityId=" + cityId, true);
+        xhttp.send();
+
+    }
+
+    function showPhases() {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                phaseList = JSON.parse(s);
+                var html = '<option  selected > Select Phase (optional) </option>' + '<option > if area has no phases select this option </option>';
+                for (var i = 0; i < phaseList.length; i++) {
+                    var obj = phaseList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("phase").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Phase/getPhases?cityId=" + cityId + "&socId=" + socId, true);
+        xhttp.send();
+
+    }
+
+    function showBlocks(caller) {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var phaseId = document.getElementById("phase").value;
+        if (caller == 'soc')
+            phaseId = "0";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                var list = JSON.parse(s);
+
+                var html = '';
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    html = html + '<a class="btn-my first" href="/Block/Edit/' + obj.id + '">' + obj.name + '</a>';
+                }
+                document.getElementById("list").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Block/getBlocks?cityId=" + cityId + "&socId=" + socId + "&phaseId=" + phaseId, true);
+        xhttp.send();
+
+    }
+
+</script>
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+</html>

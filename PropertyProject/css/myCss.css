@@ -1,0 +1,195 @@
+
+
+#inputLabel{
+            background-color:#f91942;
+            color:white;
+        }
+ .inputSpace{
+            height:13px;
+        }
+.btn-my {
+border-radius: 10px;
+  border: 4px solid black;
+  background-color: white;
+  color: black;
+  padding: 4px 15px;
+  font-size: 16px;
+  font-weight:bold;
+  cursor: pointer;
+  background:transparent;
+}
+
+
+/* Green */
+.first {
+  border-color: #f91942;
+  color: #f91942;
+}
+
+.first:hover {
+  background-color: #f91942;
+  color: white;
+}
+.second{
+	font-size:20px;
+	padding-left:20px;
+	padding-right:20px;
+  background-color: #f91942;
+  border: 1px solid white;
+  color: white;
+}
+.second:hover {
+  border-color: white;
+  color: white;
+  border: 3px solid white;
+  background:transparent;
+}
+.prominent
+{
+font-size:20px;
+	padding-left:20px;
+	padding-right:20px;
+border-color: white;
+  color: white;
+  border: 3px solid white;
+  background:transparent;
+}
+.mainHeading{
+    color:#f91942;
+}
+.special{
+border-radius: 15px;
+	font-size:20px;
+	padding-left:2px;
+	padding-right:2px;
+	padding-top:0px;
+	padding-bottom:2px;
+  background-color: #f91942;
+   color: #0A5856;
+  border: 2px solid #f91942;
+  color: white;
+}
+.special:hover {
+
+  border-color: white;
+  color: white;
+  border: 2px solid white;
+  background:transparent;
+}
+.special1 {
+    border-radius: 15px;
+    font-size: 15px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+    background-color: #f91942;
+    color: #0A5856;
+    border: 2px solid #f91942;
+    color: white;
+}
+    .special1:hover {
+        color: #f91942;
+        border: 2px solid #f91942;
+        background-color: white;
+    }
+
+.special2 {
+    border-radius: 5px;
+    font-size: 15px;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+    border: 2px solid #f91942;
+    color: #f91942;
+    background-color: transparent;
+}
+
+    .special2:hover {
+        color: white;
+        border: 2px solid #f91942;
+        background-color: #f91942;
+    }
+/* drop down for cities*/
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+.dropbtn {
+  background:transparent;
+  color:#0A5856;
+  padding: 4px 15px;
+  font-weight:bold;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+   border-radius: 5px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 300px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+  z-index: 1001;
+}
+
+.dropdown-content a {
+  color:#f91942 ;
+  padding: 4px 15px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+background-color:#f91942;
+color:white;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+    border-radius: 5px;
+  background-color: #0A5856;
+  color:#FFFFFF;
+}
+	
+.searchBoxBack{
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  width:auto;
+  height: auto;
+  padding-bottom:80px;
+  padding-top:30px;
+  
+}
+.heading_ {
+
+   background-color:rgba(47,79,79, .8);
+   border: 1px solid white;
+   border-radius: 9px;
+    margin: 0 auto; /* to make the div center align to the browser */
+    margin-bottom:  30px;
+    padding: 0px;
+    max-width: 400px;
+    text-align: center;
+}
+.searchBox
+{	
+  border-radius: 13px;
+  border: 0px solid #f91942;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  max-width:800px;
+  background-color:rgba(255,0,0, 0);
+}
+

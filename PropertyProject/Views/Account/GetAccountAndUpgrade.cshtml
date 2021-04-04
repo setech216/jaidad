@@ -1,0 +1,109 @@
+﻿@using ModelLayer
+@using DbLayer.db
+@{
+    ViewBag.Title = "Account Info and Upgrade";
+    ViewBag.isSideBar = "true";
+}
+
+<!-- Dashboard -->
+<div id="dashboard">
+
+    <!-- Navigation
+    ================================================== -->
+    <!-- Responsive Navigation Trigger -->
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Navigation / End -->
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Account Info and Upgrade</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Account Info and Upgrade</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <div align="center"><h4 style="color:red;">@ViewBag.msg</h4></div>
+        @{ if (Model == null)
+            {
+                <div align="center"><h4 style="color:red;">Account Not Found</h4></div>
+            }
+            else
+            {
+                <div class="row">
+
+                    <!-- Profile -->
+                    <div class="col-sm-12">
+                        <div class="dashboard-list-box margin-top-0">
+                            <h4 class="gray">Profile Details</h4>
+                            <div class="dashboard-list-box-static">
+
+                                <!-- Details -->
+                                <div class="my-profile">
+
+                                    <label>Your Name:</label>
+                                    <label style="font-size:20px;color:red">@Model.Name</label>
+                                    <br />
+
+                                    <label>Phone:</label>
+                                    <label style="font-size:20px;color:red">@Model.PhoneNumber</label>
+                                    <br />
+
+                                    <label>Email:</label>
+                                    <label style="font-size:20px;color:red">@Model.Email</label>
+                                    <br />
+                                    @{string role = ((Role)Model.roleId).ToString();}
+                                    <label>Role:</label>
+                                    <label style="font-size:20px;color:red">@role</label>
+                                    <br />
+                                </div>
+
+                                @{if (!(Model.roleId == (int)Role.superAdmin))
+                                    {
+                                        int agentId=(int)Role.agent;
+                                        int adminId = (int)Role.admin;
+                                         using (Html.BeginForm("GetAccountAndUpgrade", "Account", FormMethod.Post))
+                                              {
+                                        <input type="hidden" name="userId" value="@Model.Id"/>
+                                        <input type="hidden" name="email" value="@Model.Email"/>
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select Role</b></span></div>
+                                        <select class="form-control" name="role" required>
+                                            <option slected value=""> Select Role </option>
+                                            <option slected value="@agentId">Agent</option>
+                                            <option slected value="@adminId">Admin</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="inputSpace"></div>
+                <button class="btn-my first">update</button>
+                                                 }
+                                }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            }
+        }
+
+    </div>
+    <!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+</div>
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:08 GMT -->
+</html>

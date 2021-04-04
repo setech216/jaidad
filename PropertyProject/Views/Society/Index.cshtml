@@ -1,0 +1,115 @@
+﻿@using ModelLayer;
+@using DbLayer.db;
+@{
+    ViewBag.Title = "Society List";
+    ViewBag.isSideBar = "true";
+}
+<!-- Dashboard -->
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Content
+        ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Society List</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Society List</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="form-group input-group input-group-lg">
+                    <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Select City</b></span></div>
+
+                    <select class="form-control" name="city_id" id="city" onChange="showSocieties()" required>
+                        <option slected value=""> Select City </option>
+                        @{List<CityModel> cityList = ViewBag.cities;
+                            if (cityList != null)
+                            {
+                                foreach (CityModel city in cityList)
+                                {
+                                    <option slected value=@city.id> @city.name </option>
+                                }
+                            }
+                        }
+
+                    </select>
+                </div>
+
+
+                <div align="center"><h4 style="color:red;">@ViewBag.postCity</h4></div>
+                <!--page Data Starts here -->
+                <div class="row ">
+                    <div align="center"><h4 style="color:red;">choose from list to update</h4></div>
+                    <div id="list" align="center" style="margin-top:20px;margin-bottom:20px">
+
+                    </div>
+
+
+
+
+
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+
+    </div>
+
+
+
+</div>
+<!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+</div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+</body>
+
+<script>
+    function showSocieties() {
+        
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                var list = JSON.parse(s);
+
+                var html = '';
+                for (var i = 0; i < list.length; i++) {
+                    var obj = list[i];
+                    html = html + '<a class="btn-my first" href="/Society/Edit/'+obj.id+'">'+obj.name+'</a>';
+                }
+                document.getElementById("list").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Society/getSocieties?cityId=" + cityId, true);
+        xhttp.send();
+
+    }
+
+
+</script>
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+</html>

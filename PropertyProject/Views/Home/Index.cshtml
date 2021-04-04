@@ -1,0 +1,376 @@
+﻿@using ModelLayer;
+@using DbLayer.db;
+@{
+    ViewBag.Title = "Home Page";
+    ViewBag.isSideBar = "false";
+}
+
+<!-- Banner
+================================================== -->
+
+
+<div class="main-search-container dark-overlay">
+    <div class="main-search-inner">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <h2>Search Properties</h2>
+                    <h4>Expolore top-rated plots,houses and more</h4>
+
+                    <div class="row">
+                        <div class="  col-sm-12  " align="center">
+                            <div class="dropdown">
+                                <button class="btn special" id="" style="color:white"><u>DHA Plots</u></button>
+                                <div class="dropdown-content">
+                                    @{
+                                        PhaseDb phdb = new PhaseDb();
+                                        List<PhaseModel> dhaPhasesList = phdb.getPhases(1, 1002);
+                                        <a href="/Property/Listing?purpose=sell&propertyType=1&cityId=1&societyId=1002">DHA Lahore All Phases</a>
+                                        foreach (PhaseModel obj in dhaPhasesList)
+                                        {
+                                            <a href="/Property/Listing?purpose=sell&propertyType=1&cityId=@obj.city_id&societyId=@obj.society_id&phaseId=@obj.id">DHA Lahore @obj.name</a>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/Property/Listing?purpose=sell&propertyType=2&cityId=-1&societyId=-1&phaseId=-1'" class="btn special"  style="color:white"><u>DHA Files</u></button>
+                        </div>
+                    </div>
+                    <!--searchbox starts-->
+                    <div class="searchBoxBack" id="searchBoxBack1" align="center">
+                        <div class="row searchBox">
+
+                            <div class="  col-md-6 col-md-offset-3">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+
+                                    <button class="btn second prominent" id="buy" style="color:white"><b>Buy</b></button>
+                                    <button class="btn second" id="rent" style="color:white"><b>Rent</b></button>
+                                    <button onclick="window.location.href='/Property/Create'" class="btn second" style="color:white"><b>Sell</b></button>
+
+                                </div>
+                            </div>
+                            @using (Html.BeginForm("Listing", "Property", FormMethod.Get))
+                            {
+                                <!--purpsse(buy,rent,sale) starts-->
+
+                                <input type="hidden" name="purpose" id="purpose" value="sell">
+                                <!--purpsse(buy,rent,sale) ends-->
+                                <!--property type -->
+                                <div class="  col-sm-4 ">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Property Type</b></span></div>
+                                        <select class="form-control inputStylingSB" name="propertyType" id="propertyType" onChange="showDetails()">
+                                            <option slected value="-1">Property Type</option>
+                                            @{List<PropertyTypeModel> typeList = ViewBag.propertyTypes;
+                                                if (typeList != null)
+                                                {
+                                                    foreach (PropertyTypeModel type in typeList)
+                                                    {
+                                                        <option slected value=@type.id> @type.name </option>
+                                                    }
+                                                }
+                                            }
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--property ends -->
+                                <!--city starts -->
+                                <div class="  col-sm-4 ">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>City</b></span></div>
+                                        <select class="form-control inputStylingSB" name="cityId" id="city" onChange="showSocieties(); cityMap();">
+                                            <option slected value="-1">Select City </option>
+                                            @{List<CityModel> cityList = ViewBag.cities;
+                                                if (cityList != null)
+                                                {
+                                                    foreach (CityModel city in cityList)
+                                                    {
+                                                        <option slected value=@city.id> @city.name </option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--city ends -->
+                                <!--society starts-->
+                                <div class="  col-sm-4 ">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Society/Area</b></span></div>
+                                        <select class="form-control inputStylingSB" name="societyId" id="society" onChange="showPhases(); showBlocks('soc'); societyMap();">
+                                            <option selected value="-1"> society</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--society ends-->
+                                <!--phase starts-->
+                                <div class="  col-sm-4 ">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Phase</b></span></div>
+                                        <select class="form-control inputStylingSB" name="phaseId" id="phase" onChange="showBlocks('ph'); phaseMap();">
+                                            <option selected value="-1"> Phase</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--phase ends-->
+                                <!--block starts-->
+                                <div class="  col-sm-4">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Block/Sector</b></span></div>
+                                        <select class="form-control inputStylingSB" name="blockId" id="block" onChange="blockyMap()">
+                                            <option selected value="-1">Block/Society</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--block ends-->
+                                <!--price starts-->
+                                <div class="    col-sm-4">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel" style=""><b>Price</b></span></div>
+                                        <select class="form-control inputStylingSB" name="priceFrom">
+                                            <option selected value="-1">From</option>
+                                            <option value="100000">One Lac</option>
+                                            <option value="2000000">20 Lac</option>
+                                            <option value="5000000">50 Lac</option>
+                                            <option value="10000000">One crore</option>
+                                            <option value="20000000">2 crore</option>
+                                            <option value="40000000">4 crore</option>
+                                            <option value="100000000">10 crore</option>
+                                            <option value="200000000">20 crore</option>
+                                            <option value="500000000">50 crore</option>
+                                        </select>
+                                        <select class="form-control inputStylingSB" name="priceTo">
+                                            <option selected value="-1">To</option>
+                                            <option value="2000000">20 Lac</option>
+                                            <option value="5000000">50 Lac</option>
+                                            <option value="10000000">One crore</option>
+                                            <option value="20000000">2 crore</option>
+                                            <option value="40000000">4 crore</option>
+                                            <option value="100000000">10 crore</option>
+                                            <option value="200000000">20 crore</option>
+                                            <option value="500000000">50 crore</option>
+                                            <option value="1000000000">100 crore</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--price ends-->
+                                <!--area starts -->
+                                <div class="col-sm-offset-2  col-sm-8 ">
+                                    <div class="inputSpace"></div>
+                                    <div class="form-group input-group input-group-lg">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Area From</b></span></div>
+                                        <input type="number" name="areaFrom" step="any" id="areaFrom" class="form-control inputStylingSB" placeholder="From" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                                        <div class="input-group-prepend"><span class="input-group-text" id="inputLabel"><b>Area To</b></span></div>
+                                        <input type="number" name="areaTo" step="any" id="areaTo" class="form-control inputStylingSB" placeholder="To" aria-label="Large" aria-describedby="inputGroup-sizing-sm">
+                                        <select class="form-control inputStylingSB" name="unit" id="unit" required>
+                                            <option slected value="-1" id="unitSelected">Unit For Area</option>
+                                            <option  value="Marla">Marla</option>
+                                            <option value="Kanal">Kanal</option>
+                                            <option  value="SquareFeet">SquareFeet</option>
+                                            <option  value="SquareYard">SquareYard</option>
+                                            <option  value="SquareMeter">SquareMeter</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <!--area ends -->
+
+
+                                <div class="  col-sm-12 ">
+                                    <div class="inputSpace" style="opacity:1.0;"></div>
+                                    <button type="submit" class="btn-my second" style="color:white">Search</button>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                    <!--searchbox ends-->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Video -->
+    <div class="video-container">
+        <video poster="images/main-search-video-poster.jpg" loop autoplay muted>
+            <source src=@Url.Content("~/images/main-search-video.mp4") type="video/mp4">
+        </video>
+    </div>
+</div>
+<!-- Content
+================================================== -->
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+            <h3 class="headline centered margin-top-75">
+                DHA Lahore Plots For Sale
+            </h3>
+        </div>
+
+    </div>
+</div>
+<div id="map-container" class="fullwidth-home-map">
+    <div id="map">
+        <!-- map goes here -->
+    </div>
+</div>
+<!-- Container / End -->
+<input type="hidden" id="centerLat" value="31.4699" />
+<input type="hidden" id="centerLng" value="74.4388" />
+<input type="hidden" id="zoom" value="12" />
+
+<input type="hidden" id="propertyType" value="1" />
+<input type="hidden" id="purpose" value="sell" />
+<input type="hidden" id="cityId" value="1" />
+<input type="hidden" id="societyId" value="1002" />
+<input type="hidden" id="phaseId" value="-1" />
+<input type="hidden" id="blockId" value="-1" />
+<input type="hidden" id="priceFrom" value="-1" />
+<input type="hidden" id="priceTo" value="-1" />
+<input type="hidden" id="areaTo" />
+<input type="hidden" id="areaFrom" />
+<input type="hidden" id="unit" value="-1" />
+
+<!-- Footer
+================================================== -->
+@RenderPage("~/Views/Shared/footer.cshtml")
+<!-- Footer / End -->
+<!-- Back To Top Button -->
+<div id="backtotop"><a href="#"></a></div>
+
+
+</div>
+<!-- Wrapper / End -->
+</body>
+</html>
+
+
+<script>
+    $(document).ready(function () {
+        $("#buy").on("click", function () {
+            x = document.getElementById("purpose");
+            x.value = "sell";
+            $(this).addClass('prominent');
+            $("#rent").removeClass('prominent');
+        });
+    });
+
+    $(document).ready(function () {
+        $("#rent").on("click", function () {
+            x = document.getElementById("purpose");
+            x.value = "rent";
+            $(this).addClass('prominent');
+            $("#buy").removeClass('prominent');
+        });
+    });
+    $(document).ready(function () {
+        $("#areaFrom").on("change", function () {
+            unit = document.getElementById("unitSelected");
+            areaFrom = document.getElementById("areaFrom").value;
+            areaTo = document.getElementById("areaTo").value;
+            if (areaFrom != "" || areaTo != "") { unit.value = ""; }
+            else { unit.value = "-1"; }
+        });
+    });
+    $(document).ready(function () {
+        $("#areaTo").on("change", function () {
+            unit = document.getElementById("unitSelected");
+            areaFrom = document.getElementById("areaFrom").value;
+            areaTo = document.getElementById("areaTo").value;
+            if (areaFrom != "" || areaTo != "") { unit.value = ""; }
+            else { unit.value = "-1"; }
+        });
+    });
+
+</script>
+<script>
+    var myIndex = 0;
+    carousel();
+
+
+
+    function showSocieties() {
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                s = this.responseText;
+                socList = JSON.parse(s);
+                var html = '<option  value="-1">Society/Area</option>';
+                for (var i = 0; i < socList.length; i++) {
+                    var obj = socList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("society").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Society/getSocieties?cityId=" + cityId, true);
+        xhttp.send();
+
+    }
+
+
+
+    function showPhases() {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                phaseList = JSON.parse(s);
+                var html = '<option  selected value="-1">Phase</option>';
+                for (var i = 0; i < phaseList.length; i++) {
+                    var obj = phaseList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("phase").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Phase/getPhases?cityId=" + cityId + "&socId=" + socId, true);
+        xhttp.send();
+
+    }
+
+
+
+    function showBlocks(caller) {
+        var socId = document.getElementById("society").value;
+        var cityId = document.getElementById("city").value;
+        var phaseId = document.getElementById("phase").value;
+        if (caller == 'soc')
+            phaseId = "0";
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+
+            if ((this.readyState == 4) && (this.status == 200)) {
+                var s = this.responseText;
+                blockList = JSON.parse(s);
+                var html = '<option  selected value="-1">Block/Sector</option>';
+                for (var i = 0; i < blockList.length; i++) {
+                    var obj = blockList[i];
+                    html = html + '<option value="' + obj.id + '">' + obj.name + '</option>';
+                }
+                document.getElementById("block").innerHTML = html;
+            }
+        };
+        xhttp.open("GET", "/Block/getBlocks?cityId=" + cityId + "&socId=" + socId + "&phaseId=" + phaseId, true);
+        xhttp.send();
+
+    }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCER7BUrzg5FXz5hivZKd2XzkWAMrTlX2k&amp;"></script>
+<script type="text/javascript" src=@Url.Content("~/scripts/listingMaps.js")></script>
+<script type="text/javascript" src=@Url.Content("~/scripts/infobox.min.js")></script>

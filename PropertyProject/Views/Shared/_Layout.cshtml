@@ -1,0 +1,244 @@
+﻿@using ModelLayer
+@using DbLayer.db;
+@using Microsoft.AspNet.Identity
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>@ViewBag.Title</title>
+
+
+    <link rel="stylesheet" href=@Url.Content("~/css/style.css")>
+    <link rel="stylesheet" href=@Url.Content("~/css/main-color.css") id="colors">
+
+    <!--soure is w3 school -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+    <!--for select and input simultaneously -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+    <script src=@Url.Content("~/Scripts/jquery-1.10.2.js")></script>
+    <script src=@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")></script>
+
+
+    <!--my file -->
+    <link rel="stylesheet" href=@Url.Content("~/css/myCss.css")>
+    <link rel="stylesheet" href=@Url.Content("~/css/inputFields.css") id="colors">
+
+    <script data-cfasync="false" src="../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/jquery-2.2.0.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/mmenu.min.js")></script>
+
+    <script type="text/javascript" src=@Url.Content("~/scripts/chosen.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/slick.min.js")></script>
+
+    <script type="text/javascript" src=@Url.Content("~/scripts/rangeslider.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/magnific-popup.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/waypoints.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/counterup.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/jquery-ui.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/tooltips.min.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/custom.js")></script>
+    <script type="text/javascript" src=@Url.Content("~/scripts/myScript.js")></script>
+
+
+
+
+    <style>
+        .inputStylingSB {
+            color: #f91942;
+            border: 2px solid white;
+        }
+
+        .form-control::-webkit-input-placeholder {
+            color: white;
+        }
+        /* WebKit, Blink, Edge */
+        .form-control:-moz-placeholder {
+            color: white;
+        }
+        /* Mozilla Firefox 4 to 18 */
+        .form-control::-moz-placeholder {
+            color: white;
+        }
+        /* Mozilla Firefox 19+ */
+        .form-control:-ms-input-placeholder {
+            color: white;
+        }
+        /* Internet Explorer 10-11 */
+        .form-control::-ms-input-placeholder {
+            color: white;
+        }
+        /* Microsoft Edge */
+
+    </style>
+
+
+
+</head>
+
+<body>
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header Container
+        ================================================== -->
+
+
+
+        @{
+            string isSideBar = ViewBag.isSideBar;
+            if (isSideBar == "true")
+            {@RenderPage("~/Views/Shared/headerTagForSidebar.cshtml")
+            }
+            else
+            {
+            @RenderPage("~/Views/Shared/headerTagWithoutSidebar.cshtml")
+            }
+        }
+
+
+        <div class="container">
+
+            <!-- Left Side Content -->
+            <div class="left-side">
+
+                <!-- Logo -->
+                <div id="logo">
+                    <a href="index-2.html"><img src=@Url.Content("~/images/logo.png") alt=""></a>
+                </div>
+
+                <!-- Mobile Navigation -->
+                <div class="mmenu-trigger">
+                    <button class="hamburger hamburger--collapse" type="button">
+                        <span class="hamburger-box">
+                            <span class="hamburger-inner"></span>
+                        </span>
+                    </button>
+                </div>
+
+                <!-- Main Navigation -->
+                <nav id="navigation" class="style-1">
+                    <ul id="responsive">
+
+                        <li>
+                            <a href="/">Home</a>
+
+                        </li>
+
+                
+                        <li>
+                            <a  href="#">For Sale</a>
+                            <ul>
+                                @{
+                                    PropertyTypeDb prpTypedb = new PropertyTypeDb();
+                                    List<PropertyTypeModel> prpTypeList = prpTypedb.gePropertyTypes();
+                                    foreach (PropertyTypeModel propType in prpTypeList)
+                                    {
+                                        <li>
+                                        <a href="#">@propType.name</a>
+                                        <ul>
+                                            @{ 
+                                                CityDb citydb = new CityDb();
+                                                List<CityModel> cityList =citydb.getCities();
+                                                foreach (CityModel city in cityList)
+                                                {
+                                                     <li><a href="/Property/Listing?purpose=sell&propertyType=@propType.id&cityId=@city.id">@city.name</a></li>
+                                                }
+                                            }   
+                                        </ul>
+                                    </li>
+                                        }
+
+                                    }
+                                </ul>
+                            </li>
+
+                        <li>
+                            <a  href="#">For Rent</a>
+                            <ul>
+                                @{
+                                    PropertyTypeDb prpTypedb1 = new PropertyTypeDb();
+                                    List<PropertyTypeModel> prpTypeList1 = prpTypedb.gePropertyTypes();
+                                    foreach (PropertyTypeModel propType in prpTypeList)
+                                    {
+                                        <li>
+                                        <a href="#">@propType.name</a>
+                                        <ul>
+                                            @{ 
+                                                CityDb citydb = new CityDb();
+                                                List<CityModel> cityList =citydb.getCities();
+                                                foreach (CityModel city in cityList)
+                                                {
+                                                     <li><a href="/Property/Listing?purpose=rent&propertyType=@propType.id&cityId=@city.id">@city.name</a></li>
+                                                }
+                                            }   
+                                        </ul>
+                                    </li>
+                                        }
+
+                                    }
+                                </ul>
+                            </li>
+
+                        <li>
+                            <a href="/Home/Temp">About</a>
+
+                        </li>
+
+                        <li>
+                            <a href="/">Contact Us</a>
+
+                        </li>
+                        </ul>
+                    </nav>
+                    <div class="clearfix"></div>
+                    <!-- Main Navigation / End -->
+
+                </div>
+                <!-- Left Side Content / End -->
+                <!-- Right Side Content / End -->
+                <div class="right-side">
+                    <div class="header-widget">
+                        @{
+                            //UserModel user = (UserModel)Session["userObj"];
+                            if ((Request.Cookies["user"] == null))
+                            {
+                                <a href="/Account/Register" class="sign-in"><i class="sl sl-icon-user"></i> Register</a>
+                                <a href="/Account/Login" class="sign-in"><i class="sl sl-icon-login"></i> Log In</a>
+                            }
+                            else
+                            {
+
+                                <!-- User Menu -->
+                                <div class="user-menu">
+                                    <div class="user-name"><span><img src=@Url.Content("~/images/avatar.png") alt=""></span>@Request.Cookies["user"]["name"]</div>
+                                    <ul>
+                                        <li><a href="/Dashboard/Index"><i class="sl sl-icon-settings"></i> Dashboard</a></li>
+                                        <li><a href="/Account/LogOff" class="sign-in"><i class="sl sl-icon-login"></i> Log Out</a></li>
+                                    </ul>
+                                </div>
+
+                                <a href="/Property/Create" class="button border with-icon">Add Property <i class="sl sl-icon-plus"></i></a>
+                            }
+                        }
+
+                    </div>
+                </div>
+
+
+                <!-- Right Side Content / End -->
+
+            </div>
+        </div>
+        <!-- Header / End -->
+
+        </header>
+        <div class="clearfix"></div>
+        <!-- Header Container / End -->
+
+        @RenderBody()

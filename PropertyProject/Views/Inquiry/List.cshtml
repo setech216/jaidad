@@ -1,0 +1,105 @@
+﻿@using ModelLayer;
+@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<ModelLayer.InquiryModel>
+@{
+    ViewBag.Title = "List";
+    ViewBag.isSideBar = "true";
+}
+
+<div id="dashboard">
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Inquiries</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Inquiries</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="pricing-list-container">
+                    <ul>
+                        @foreach (InquiryModel obj in Model)
+                        {
+                            <li id=@obj.id style="background-color:#FFF2F7;border:1px solid black;padding-top:8px;padding-right:2px;padding-bottom:27px;margin-bottom:5px">
+                                <h5><b style="font-size:20px;color:#f91942">@obj.name </b> @obj.date  <button onclick="deleteInquiry(@obj.id)" class="btn-my special1" style="float:right">delete</button></h5>
+
+                                <h5>
+                                    @if (obj.phone != null)
+                                    {<b>@obj.phone</b>}
+                                    @if (obj.email != null)
+                                    {<b> , @obj.email</b>}
+                                </h5>
+
+                                <p style="color:black">"@obj.description" </p>
+                                @if (obj.property_id != null)
+                                {<button onclick="window.location.href='/Property/Details/'+@obj.property_id" class="btn-my special1" style="float:right">View Property</button>}
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+                @Html.PagedListPager(Model, i => Url.Action("List", "Inquiry", new
+                {
+                    i
+                }))
+            </div>
+        </div>
+    </div>
+    <!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+    </div>
+<!-- Wrapper / End -->
+<!-- Scripts
+================================================== -->
+    </body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard-add-listing.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:11 GMT -->
+    </html>
+
+<script>
+    function deleteInquiry(id) {
+        var confrm = confirm("Are you sure to delete this inquiry! it will be deleted permenently. press OK to confirm deletion");
+        if (confrm == true) {
+            $.ajax({
+                type: 'GET',
+                url: "/Inquiry/Delete?id=" + id,
+                dataType: 'json',
+                success: function (data) {
+                    if (data == true) {
+                        $("#" + id).hide();
+                    }
+                    else {
+                        alert("data not deleted due to some reason!");
+                    }
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StackTrace: " + r.StackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+        }
+    }
+</script>
+
+
+
+

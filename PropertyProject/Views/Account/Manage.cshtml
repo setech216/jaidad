@@ -1,0 +1,64 @@
+﻿@{
+    ViewBag.Title = "Manage Accounts";
+    ViewBag.isSideBar = "true";
+}
+
+<!-- Dashboard -->
+<div id="dashboard">
+
+    <!-- Navigation
+    ================================================== -->
+    <!-- Responsive Navigation Trigger -->
+    @RenderPage("~/Views/Shared/sidebar.cshtml")
+    <!-- Navigation / End -->
+    <!-- Content
+    ================================================== -->
+    <div class="dashboard-content">
+
+        <!-- Titlebar -->
+        <div id="titlebar">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Manage Accounts</h2>
+                    <!-- Breadcrumbs -->
+                    <nav id="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Dashboard</a></li>
+                            <li>Manage Accounts</li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="row">
+
+            <!-- Item -->
+            <div class="col-lg-3 col-md-6">
+                <a href="/Account/FindAccount" >
+                    <div class="dashboard-stat color-1">
+                        <div class="dashboard-stat-content"><h3>Make Agent</h3> <span></span></div>
+                        
+                    </div>
+                </a>
+            </div>
+
+            <!-- Item -->
+            <div class="col-lg-3 col-md-6">
+                <a href="/Account/DeleteAgent">
+                    <div class="dashboard-stat color-2">
+                        <div class="dashboard-stat-content"><h3>Delete Agent</h3></div>
+                    </div>
+               </a>
+            </div>
+        </div>
+    </div>
+    <!-- Content / End -->
+</div>
+<!-- Dashboard / End -->
+</div>
+</body>
+
+<!-- Mirrored from www.vasterad.com/themes/listeo2/dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 06 Mar 2019 16:11:08 GMT -->
+</html>

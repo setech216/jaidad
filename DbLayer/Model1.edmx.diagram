@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d19d24a7719d4ddbaca4811789adeed4" Name="Diagram1">
+        <EntityTypeShape EntityType="propertyDbModel.AspNetUsers" Width="1.5" PointX="8.25" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.block" Width="1.5" PointX="5.25" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.city" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.inquiry" Width="1.5" PointX="12.75" PointY="12.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.phase" Width="1.5" PointX="8.25" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.property" Width="1.5" PointX="10.5" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.property_type" Width="1.5" PointX="8.25" PointY="16.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.society" Width="1.5" PointX="3" PointY="16.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="propertyDbModel.userRole" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <AssociationConnector Association="propertyDbModel.FK_AspNetUsers_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_AspNetUsers_userRole" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_AspNetUsers" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_AspNetUsers1" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_block_city" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_block_phase" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_block_society" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_block" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_phase_city" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_city" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_society_city" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_inquiry_property" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_phase_society" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_phase" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_property_type" ManuallyRouted="false" />
+        <AssociationConnector Association="propertyDbModel.FK_property_society" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
